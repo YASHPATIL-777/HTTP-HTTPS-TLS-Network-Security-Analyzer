@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HTTP/HTTPS/TLS Network Security Analyzer - Educational network protocol security analysis, interactive Cisco Packet Tracer-style topology, and Wireshark evidence dashboard." />
+  <title>HTTP/HTTPS/TLS Network Security Analyzer</title>
+
+  <!-- Google Fonts for Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/topology.css" />
+  <link rel="stylesheet" href="css/packet-table.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ====================================================================
+         Sidebar Navigation
+         ==================================================================== -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="#overview" class="brand-wrapper">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-title">NETSEC ANALYZER</span>
+            <span class="brand-badge">HTTP • HTTPS • TLS</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Dashboard</div>
+
+        <a href="#overview" class="nav-item active" data-view="overview" id="nav-overview">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Overview</span>
+        </a>
+
+        <a href="#architecture" class="nav-item" data-view="architecture" id="nav-architecture">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <circle cx="6" cy="19" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <path d="M12 12l-6 4"></path>
+            <path d="M12 12l6 4"></path>
+          </svg>
+          <span>Network Architecture</span>
+          <span class="nav-badge verified">Interactive</span>
+        </a>
+
+        <div class="nav-section-label">Protocol Security</div>
+
+        <a href="#http-vs-https" class="nav-item" data-view="http-vs-https" id="nav-http-vs-https">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
+            <path d="M18 8l4 4-4 4"></path>
+            <path d="M8 12h14"></path>
+          </svg>
+          <span>HTTP vs HTTPS</span>
+        </a>
+
+        <a href="#tls-security" class="nav-item" data-view="tls-security" id="nav-tls-security">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>TLS Security</span>
+          <span class="nav-badge verified">Handshake</span>
+        </a>
+
+        <div class="nav-section-label">Wireshark Analysis</div>
+
+        <a href="#evidence" class="nav-item" data-view="evidence" id="nav-evidence">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Wireshark Evidence</span>
+          <span class="nav-badge verified">Captures</span>
+        </a>
+
+        <a href="#packet-analysis" class="nav-item" data-view="packet-analysis" id="nav-packet-analysis">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Packet Analysis</span>
+          <span class="nav-badge demo">Sample UI</span>
+        </a>
+
+        <div class="nav-section-label">Documentation</div>
+
+        <a href="#about" class="nav-item" data-view="about" id="nav-about">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>About Project</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="project-meta-box">
+          <span class="project-meta-title">Implementation:</span>
+          <span class="project-meta-val">Phase 1 Frontend</span>
+        </div>
+        <div class="project-meta-box">
+          <span class="project-meta-title">Environment:</span>
+          <span class="project-meta-val">Local Offline Lab</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         Main Viewport & Header
+         ==================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="btn-sidebar-toggle" id="btnSidebarToggle" aria-label="Toggle Sidebar Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-title-group">
+            <h1 class="header-current-view" id="currentViewTitle">Security Overview Dashboard</h1>
+            <p class="header-subtitle" id="currentViewSubtitle">Comparative Analysis of Plaintext HTTP vs Cryptographically Secured HTTPS/TLS</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="system-status-pill">
+            <span class="status-dot"></span>
+            <span>Phase 1 Active</span>
+          </div>
+          <span class="mode-badge">College Project Demo</span>
+        </div>
+      </header>
+
+      <!-- Scrollable Container for Dynamic Views -->
+      <div class="view-container">
+
+        <!-- ================================================================
+             VIEW 1: OVERVIEW DASHBOARD
+             ================================================================ -->
+        <section id="view-overview" class="view-section active">
+          
+          <!-- Educational Sample Notice Banner -->
+          <div class="disclaimer-banner">
+            <div class="disclaimer-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div>
+              <strong>Demonstration Environment Notice:</strong> This web application serves as an educational Network Security Analyzer. Summary statistics and packet rows are clearly labelled as educational sample data. Captured screenshots in the Evidence Gallery represent actual Wireshark experimental captures.
+            </div>
+          </div>
+
+          <!-- Project Introduction Hero -->
+          <div class="card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(19, 29, 49, 0.9) 0%, rgba(11, 17, 30, 0.9) 100%);">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title" style="font-size: 1.25rem;">
+                  HTTP/HTTPS/TLS Network Security Analyzer
+                </h2>
+                <div class="card-subtitle">
+                  Academic laboratory investigation of transport-layer cryptographic protection, packet sniffing vulnerabilities, and TLS handshake protocols.
+                </div>
+              </div>
+              <span class="badge badge-info">Network Security Lab</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6;">
+              In standard computer networks, Hypertext Transfer Protocol (HTTP) transmits application payloads without encryption over TCP port 80, leaving credentials and session cookies exposed to passive packet interception. Conversely, HTTPS establishes a Transport Layer Security (TLS) cryptographic tunnel over port 443, ensuring confidentiality, authentication, and cryptographic integrity. This project visualizes these mechanisms through interactive network topologies and packet analysis.
+            </p>
+          </div>
+
+          <!-- KPI Summary Grid -->
+          <div class="kpi-grid">
+            <!-- HTTP KPI -->
+            <div class="kpi-card http">
+              <div class="kpi-top">
+                <span class="kpi-label">Plaintext HTTP</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-val">Port 80 <span class="badge badge-danger">High Risk</span></div>
+              <div class="kpi-desc">Transmits request URIs, headers, and payload data as raw ASCII text. Vulnerable to MITM interception.</div>
+            </div>
+
+            <!-- HTTPS KPI -->
+            <div class="kpi-card https">
+              <div class="kpi-top">
+                <span class="kpi-label">Secured HTTPS</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-val">Port 443 <span class="badge badge-verified">Protected</span></div>
+              <div class="kpi-desc">Encapsulated in TLS record layer. Payloads appear as opaque ciphertext to intermediate observers.</div>
+            </div>
+
+            <!-- TLS Cryptography KPI -->
+            <div class="kpi-card tls">
+              <div class="kpi-top">
+                <span class="kpi-label">TLS Protocol</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-val">TLS 1.2 / 1.3 <span class="badge badge-info">Modern PKI</span></div>
+              <div class="kpi-desc">ECDHE ephemeral key exchange with AES-GCM / ChaCha20 symmetric encryption and X.509 authentication.</div>
+            </div>
+
+            <!-- Wireshark Evidence KPI -->
+            <div class="kpi-card evidence">
+              <div class="kpi-top">
+                <span class="kpi-label">Evidence Repository</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-val">3 Captures <span class="badge badge-verified">Verified</span></div>
+              <div class="kpi-desc">Logged laboratory Wireshark captures ready for teacher review and evaluation.</div>
+            </div>
+          </div>
+
+          <!-- Protocol Comparison & Payload Inspection Section -->
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                  </svg>
+                  Wire Transmission Contrast: Plaintext HTTP vs Encrypted TLS Record
+                </h3>
+                <div class="card-subtitle">Visual demonstration of what a Wireshark packet sniffer captures when inspecting network frames on the wire.</div>
+              </div>
+              <span class="badge badge-sample">Sample Educational Payloads</span>
+            </div>
+
+            <div class="payload-inspector">
+              <!-- HTTP Plaintext Box -->
+              <div class="payload-box insecure">
+                <div class="payload-header">
+                  <span class="payload-title" style="color: var(--insecure-amber);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    HTTP Request (TCP Port 80 - Cleartext)
+                  </span>
+                  <span class="badge badge-danger">Unencrypted</span>
+                </div>
+                <div class="payload-body">
+GET /portal/authenticate HTTP/1.1<br>
+Host: insecure-college.edu<br>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64)<br>
+Accept: text/html,application/xhtml+xml<br>
+Cookie: <span class="payload-highlight-insecure">session_token=9a8b7c6d5e4f</span><br>
+Authorization: Basic <span class="payload-highlight-insecure">YWRtaW46cGFzc3dvcmQxMjM=</span><br>
+<br>
+[Vulnerability Highlight]<br>
+<span style="color: #ef4444;">Eavesdroppers on LAN/Wi-Fi can read credentials in clear ASCII text!</span>
+                </div>
+              </div>
+
+              <!-- HTTPS Encrypted Box -->
+              <div class="payload-box secure">
+                <div class="payload-header">
+                  <span class="payload-title" style="color: var(--secure-green);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    HTTPS Application Data (TCP Port 443 - Ciphertext)
+                  </span>
+                  <span class="badge badge-verified">TLS Protected</span>
+                </div>
+                <div class="payload-body">
+TLSv1.3 Record Layer: Application Data Protocol<br>
+Opaque Content Type: Application Data (23 / 0x17)<br>
+Encrypted Record Length: 420 bytes<br>
+<br>
+<span class="payload-highlight-secure">4a 1b 88 c2 e0 14 77 93 e1 a4 f8 29 4c d0 bb 12</span><br>
+<span class="payload-highlight-secure">76 8a 3e f5 99 01 ca b7 41 e2 55 19 8f de 34 2b</span><br>
+<span class="payload-highlight-secure">c1 aa 90 71 83 ff 12 bc d4 98 ef 04 77 19 28 a3</span><br>
+<br>
+[Security Defense]<br>
+<span style="color: #10b981;">Payload encrypted with AES-256-GCM. Unreadable without session key!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Protocol Stack & Project Workflow Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <!-- Protocol Layer Architecture -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">OSI & TCP/IP Layer Security Model</h3>
+                <span class="badge badge-info">Protocol Stack</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                <div style="background: #0d172a; border-left: 4px solid #38bdf8; padding: 0.75rem; border-radius: 6px;">
+                  <div style="font-weight: 700; font-size: 0.85rem; color: #f8fafc;">Application Layer (L7)</div>
+                  <div style="font-size: 0.78rem; color: #94a3b8;">HTTP / HTML / REST APIs (Generates web requests & responses)</div>
+                </div>
+                <div style="background: #0d172a; border-left: 4px solid #10b981; padding: 0.75rem; border-radius: 6px;">
+                  <div style="font-weight: 700; font-size: 0.85rem; color: #10b981;">TLS Security Layer (L5/L6 Boundary)</div>
+                  <div style="font-size: 0.78rem; color: #94a3b8;">Cryptographic Handshake, X.509 PKI, AES-GCM Encrypted Records</div>
+                </div>
+                <div style="background: #0d172a; border-left: 4px solid #818cf8; padding: 0.75rem; border-radius: 6px;">
+                  <div style="font-weight: 700; font-size: 0.85rem; color: #f8fafc;">Transport Layer (L4)</div>
+                  <div style="font-size: 0.78rem; color: #94a3b8;">Transmission Control Protocol (TCP Port 80 vs TCP Port 443)</div>
+                </div>
+                <div style="background: #0d172a; border-left: 4px solid #64748b; padding: 0.75rem; border-radius: 6px;">
+                  <div style="font-weight: 700; font-size: 0.85rem; color: #f8fafc;">Network Layer (L3) & Physical (L1/L2)</div>
+                  <div style="font-size: 0.78rem; color: #94a3b8;">Internet Protocol (IPv4/IPv6), Ethernet Framing, Switches, Routers</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Laboratory Workflow -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Project Execution Workflow</h3>
+                <span class="badge badge-verified">Phased Roadmap</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.82rem;">
+                <div style="display: flex; gap: 0.75rem;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: var(--secure-green); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">✓</div>
+                  <div>
+                    <strong style="color: var(--text-primary);">Experiment A: Plaintext HTTP Capture</strong>
+                    <div style="color: var(--text-muted);">Recorded Wireshark trace of port 80 traffic; verified cleartext credential exposure.</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: var(--secure-green); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">✓</div>
+                  <div>
+                    <strong style="color: var(--text-primary);">Experiment B: Encrypted HTTPS / TLS Capture</strong>
+                    <div style="color: var(--text-muted);">Captured port 443 web traffic; confirmed payload encryption under TLS record layer.</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: var(--secure-green); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">✓</div>
+                  <div>
+                    <strong style="color: var(--text-primary);">Phase 1: Frontend Analyzer & Topology Canvas</strong>
+                    <div style="color: var(--text-muted);">Interactive Packet Tracer topology, TLS handshake flow, and evidence repository.</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(6, 182, 212, 0.15); color: var(--cyan-400); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
+                  <div>
+                    <strong style="color: var(--cyan-400);">Phase 2: Live PCAP Integration (Upcoming)</strong>
+                    <div style="color: var(--text-muted);">Parsing real .pcapng files, packet sequence graphs, and automated grading reports.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 2: NETWORK ARCHITECTURE (CISCO PACKET TRACER STYLE TOPOLOGY)
+             ================================================================ -->
+        <section id="view-architecture" class="view-section">
+          
+          <!-- Conceptual Topology Disclaimer -->
+          <div class="disclaimer-banner">
+            <div class="disclaimer-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div>
+              <strong>Conceptual Topology Notice:</strong> This interactive diagram visually models network packet traversal for educational analysis. Devices and interfaces represent conceptual laboratory nodes and are not connected to physical live hardware.
+            </div>
+          </div>
+
+          <div class="topology-container">
+            <!-- Top Controls Toolbar -->
+            <div class="topology-toolbar">
+              <div class="topology-title-area">
+                <span class="topology-badge">Cisco Packet Tracer Style</span>
+                <span style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">Network Security Topology Map</span>
+              </div>
+              <div class="topology-controls">
+                <button class="btn btn-secondary btn-sm" id="btnSimHttp" title="Simulate Unencrypted HTTP Packet (Port 80)">
+                  <span style="color: var(--insecure-amber);">●</span> Simulate HTTP
+                </button>
+                <button class="btn btn-primary btn-sm" id="btnSimHttps" title="Simulate Encrypted HTTPS/TLS Packet (Port 443)">
+                  <span style="color: #ffffff;">●</span> Simulate HTTPS/TLS
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btnResetTopology" title="Reset View and Clear Selections">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                  Reset View
+                </button>
+              </div>
+            </div>
+
+            <!-- Canvas Workspace: Left SVG Canvas, Right Details Panel -->
+            <div class="topology-workspace">
+              
+              <!-- SVG Canvas Area -->
+              <div class="topology-canvas-area" id="topologyCanvasArea">
+                <svg class="topology-svg" id="topologySvg" viewBox="0 0 1050 480">
+                  <defs>
+                    <!-- Marker for Directional Arrows -->
+                    <marker id="arrow-http" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"></path>
+                    </marker>
+                    <marker id="arrow-https" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 1 L 10 5 L 0 9 z" fill="#00f0ff"></path>
+                    </marker>
+                    <!-- Drop Shadows -->
+                    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="5" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <!-- Physical Links Background -->
+                  <g class="topology-links-layer">
+                    <!-- Physical Wire Connections (Grey dashed) -->
+                    <line x1="120" y1="240" x2="320" y2="240" class="topology-link link-physical" />
+                    <line x1="320" y1="240" x2="520" y2="240" class="topology-link link-physical" />
+                    <line x1="520" y1="240" x2="720" y2="240" class="topology-link link-physical" />
+                    <line x1="720" y1="240" x2="920" y2="240" class="topology-link link-physical" />
+
+                    <!-- HTTP Path Line (Offset slightly up: y=220) -->
+                    <path d="M 120 220 L 320 220 L 520 220 L 720 220 L 920 220" 
+                          class="topology-link link-http" 
+                          data-link-type="http"
+                          title="Click to inspect Port 80 HTTP connection" />
+                    
+                    <!-- HTTPS / TLS Path Line (Offset slightly down: y=260) -->
+                    <path d="M 120 260 L 320 260 L 520 260 L 720 260 L 920 260" 
+                          class="topology-link link-https" 
+                          data-link-type="https"
+                          title="Click to inspect Port 443 HTTPS/TLS connection" />
+                  </g>
+
+                  <!-- Connection Labels on Canvas -->
+                  <g class="topology-labels-layer">
+                    <rect x="440" y="196" width="160" height="20" rx="4" fill="#141c2e" stroke="#f59e0b" stroke-width="1" />
+                    <text x="520" y="210" text-anchor="middle" font-size="10" font-family="'JetBrains Mono', monospace" fill="#fbbf24" font-weight="600">
+                      HTTP Connection (Port 80)
+                    </text>
+
+                    <rect x="440" y="264" width="160" height="20" rx="4" fill="#141c2e" stroke="#00f0ff" stroke-width="1" />
+                    <text x="520" y="278" text-anchor="middle" font-size="10" font-family="'JetBrains Mono', monospace" fill="#00f0ff" font-weight="600">
+                      HTTPS / TLS (Port 443)
+                    </text>
+                  </g>
+
+                  <!-- Animation Simulation Layer for Traveling Packets -->
+                  <g id="topologyAnimLayer"></g>
+
+                  <!-- Node Devices Layer (Cisco Packet Tracer Inspired Representations) -->
+                  <g class="topology-nodes-layer">
+                    
+                    <!-- 1. CLIENT / WEB BROWSER -->
+                    <g class="topology-node" id="node-client" data-node-id="client" transform="translate(120, 240)">
+                      <circle r="36" fill="#141f36" stroke="#38bdf8" stroke-width="2" />
+                      <!-- PC Icon -->
+                      <g transform="translate(-14, -14)" stroke="#38bdf8" stroke-width="1.8" fill="none">
+                        <rect x="2" y="3" width="24" height="15" rx="2"></rect>
+                        <line x1="8" y1="21" x2="20" y2="21"></line>
+                        <line x1="14" y1="18" x2="14" y2="21"></line>
+                      </g>
+                      <text y="52" class="node-label">Client / Web Browser</text>
+                      <text y="66" class="node-sublabel">192.168.1.50</text>
+                    </g>
+
+                    <!-- 2. ACCESS SWITCH -->
+                    <g class="topology-node" id="node-switch" data-node-id="switch" transform="translate(320, 240)">
+                      <rect x="-34" y="-24" width="68" height="48" rx="6" fill="#141f36" stroke="#818cf8" stroke-width="2" />
+                      <!-- Switch Icon (arrows) -->
+                      <g transform="translate(-12, -10)" stroke="#818cf8" stroke-width="1.8" fill="none">
+                        <path d="M 2 5 L 22 5 M 18 1 L 22 5 L 18 9"></path>
+                        <path d="M 22 15 L 2 15 M 6 11 L 2 15 L 6 19"></path>
+                      </g>
+                      <text y="44" class="node-label">Access Switch</text>
+                      <text y="58" class="node-sublabel">L2 Domain</text>
+                    </g>
+
+                    <!-- 3. EDGE ROUTER -->
+                    <g class="topology-node" id="node-router" data-node-id="router" transform="translate(520, 240)">
+                      <circle r="36" fill="#141f36" stroke="#06b6d4" stroke-width="2" />
+                      <!-- Router Circular Cross Arrows -->
+                      <g stroke="#06b6d4" stroke-width="1.8" fill="none">
+                        <line x1="-16" y1="0" x2="16" y2="0"></line>
+                        <line x1="0" y1="-16" x2="0" y2="16"></line>
+                        <polyline points="-12,-4 -16,0 -12,4"></polyline>
+                        <polyline points="12,-4 16,0 12,4"></polyline>
+                        <polyline points="-4,-12 0,-16 4,-12"></polyline>
+                        <polyline points="-4,12 0,16 4,12"></polyline>
+                      </g>
+                      <text y="52" class="node-label">Edge Router</text>
+                      <text y="66" class="node-sublabel">192.168.1.1 (GW)</text>
+                    </g>
+
+                    <!-- 4. ENTERPRISE FIREWALL -->
+                    <g class="topology-node" id="node-firewall" data-node-id="firewall" transform="translate(720, 240)">
+                      <rect x="-30" y="-30" width="60" height="60" rx="8" fill="#141f36" stroke="#f59e0b" stroke-width="2" />
+                      <!-- Firewall Brick/Shield Icon -->
+                      <g transform="translate(-12, -12)" stroke="#f59e0b" stroke-width="1.8" fill="none">
+                        <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                        <line x1="2" y1="8" x2="22" y2="8"></line>
+                        <line x1="2" y1="14" x2="22" y2="14"></line>
+                        <line x1="8" y1="2" x2="8" y2="8"></line>
+                        <line x1="16" y1="8" x2="16" y2="14"></line>
+                        <line x1="12" y1="14" x2="12" y2="22"></line>
+                      </g>
+                      <text y="48" class="node-label">Firewall (SPI)</text>
+                      <text y="62" class="node-sublabel">Port 80/443 Policy</text>
+                    </g>
+
+                    <!-- 5. WEB SERVER -->
+                    <g class="topology-node" id="node-server" data-node-id="server" transform="translate(920, 240)">
+                      <rect x="-32" y="-36" width="64" height="72" rx="6" fill="#141f36" stroke="#10b981" stroke-width="2" />
+                      <!-- Server Rack Icon -->
+                      <g transform="translate(-14, -20)" stroke="#10b981" stroke-width="1.8" fill="none">
+                        <rect x="2" y="2" width="24" height="8" rx="2"></rect>
+                        <rect x="2" y="14" width="24" height="8" rx="2"></rect>
+                        <rect x="2" y="26" width="24" height="8" rx="2"></rect>
+                        <circle cx="6" cy="6" r="1" fill="#10b981"></circle>
+                        <circle cx="6" cy="18" r="1" fill="#10b981"></circle>
+                        <circle cx="6" cy="30" r="1" fill="#10b981"></circle>
+                      </g>
+                      <text y="52" class="node-label">Web Server</text>
+                      <text y="66" class="node-sublabel">93.184.216.34</text>
+                    </g>
+
+                  </g>
+                </svg>
+
+                <!-- Floating Canvas Legend -->
+                <div class="topology-legend">
+                  <div class="legend-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Topology Legend
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-line http"></div>
+                    <span>HTTP Path (TCP 80, Plaintext)</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-line https"></div>
+                    <span>HTTPS Path (TCP 443, TLS 1.3)</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-dot" style="background: #38bdf8;"></div>
+                    <span>Endpoint & Routing Nodes</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-dot" style="background: #f59e0b;"></div>
+                    <span>Security Inspection Barrier</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Right Details Inspector Panel -->
+              <aside class="topology-inspector" id="topologyInspector">
+                <div class="inspector-header">
+                  <div class="inspector-title-area">
+                    <div class="inspector-title" id="inspectorTitle">Client / Web Browser</div>
+                    <div class="inspector-type" id="inspectorType">Endpoint Host</div>
+                  </div>
+                  <button class="inspector-close-btn" id="btnCloseInspector" title="Close Details Inspector">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="inspector-body">
+                  <div>
+                    <div class="inspector-section-title">Network Configuration</div>
+                    <div class="inspector-specs-grid" id="inspectorSpecs">
+                      <!-- Populated via topology.js -->
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="inspector-section-title">Functional Role</div>
+                    <div class="inspector-desc-box" id="inspectorDesc">
+                      <!-- Populated via topology.js -->
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="inspector-section-title">Security & Wireshark Context</div>
+                    <div class="inspector-sec-impact secure" id="inspectorSecImpact">
+                      <!-- Populated via topology.js -->
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 3: HTTP VS HTTPS PAGE
+             ================================================================ -->
+        <section id="view-http-vs-https" class="view-section">
+          
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Comprehensive Technical Comparison: HTTP vs HTTPS</h2>
+                <div class="card-subtitle">An evaluation of transport encryption, security guarantees, and vulnerability profiles.</div>
+              </div>
+              <span class="badge badge-info">Security Matrix</span>
+            </div>
+
+            <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              The fundamental flaw of the unadorned HTTP protocol is its lack of a security layer. HTTP assumes an inherently trusted communication channel, transmitting all application data as cleartext ASCII octets. HTTPS solves this by inserting the <strong>Transport Layer Security (TLS)</strong> protocol directly between the Application Layer (HTTP) and the Transport Layer (TCP).
+            </p>
+
+            <!-- Comparison Table Component -->
+            <div class="comparison-table-wrapper">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Security Attribute</th>
+                    <th style="color: var(--insecure-amber);">HTTP (Hypertext Transfer Protocol)</th>
+                    <th style="color: var(--cyan-400);">HTTPS (HTTP over TLS)</th>
+                    <th>Cybersecurity Significance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table-feature">Default TCP Port</td>
+                    <td><span class="badge badge-port">Port 80</span></td>
+                    <td><span class="badge badge-port" style="color: var(--cyan-400); border-color: var(--cyan-500);">Port 443</span></td>
+                    <td>Port numbers allow firewalls and edge routers to filter or permit traffic according to policy.</td>
+                  </tr>
+                  <tr>
+                    <td class="table-feature">Transport Encryption</td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-cross">✕</span>
+                        <span>None (Raw ASCII Plaintext)</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-check">✓</span>
+                        <span>Symmetric AEAD (AES-256-GCM / ChaCha20)</span>
+                      </div>
+                    </td>
+                    <td>Without encryption, any intermediate switch, router, or Wi-Fi radio can record complete payloads.</td>
+                  </tr>
+                  <tr>
+                    <td class="table-feature">Confidentiality</td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-cross">✕</span>
+                        <span>Zero Confidentiality</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-check">✓</span>
+                        <span>End-to-End Cryptographic Privacy</span>
+                      </div>
+                    </td>
+                    <td>Protects user passwords, credit card numbers, session cookies, and private messages.</td>
+                  </tr>
+                  <tr>
+                    <td class="table-feature">Integrity Verification</td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-cross">✕</span>
+                        <span>No Tamper Detection</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-check">✓</span>
+                        <span>HMAC / GHASH Cryptographic MAC</span>
+                      </div>
+                    </td>
+                    <td>Prevents Man-in-the-Middle (MITM) attackers from injecting malicious JavaScript, ads, or altering data.</td>
+                  </tr>
+                  <tr>
+                    <td class="table-feature">Authentication & PKI</td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-cross">✕</span>
+                        <span>No Identity Verification</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-icon-check">✓</span>
+                        <span>X.509 Certificates validated by CAs</span>
+                      </div>
+                    </td>
+                    <td>Ensures the browser is communicating with the authentic server, not an impostor or phishing server.</td>
+                  </tr>
+                  <tr>
+                    <td class="table-feature">Vulnerabilities & Threats</td>
+                    <td>
+                      <span class="badge badge-danger">High Exposure</span><br>
+                      <small style="color: var(--text-muted);">Packet sniffing, ARP poisoning, session hijacking, SSL stripping.</small>
+                    </td>
+                    <td>
+                      <span class="badge badge-verified">Mitigated</span><br>
+                      <small style="color: var(--text-muted);">Protected by TLS; requires strict HSTS to prevent downgrade attacks.</small>
+                    </td>
+                    <td>HTTP should never be utilized for transmitting authentication tokens or personal identifiable data.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Theoretical Deep-Dive Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Why HTTP Alone Cannot Provide Transport Encryption</h3>
+              <span class="badge badge-info">RFC Standards Context</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+              <p style="margin-bottom: 0.75rem;">
+                As defined in <strong>RFC 2616 / RFC 7230</strong>, HTTP is strictly a stateless application-layer request-response protocol designed to transfer hypertext documents. It contains no native primitives for key agreement, cipher suite negotiation, or message integrity checks.
+              </p>
+              <p>
+                By layering HTTP over TLS (defined in <strong>RFC 2818</strong> for HTTPS and <strong>RFC 8446</strong> for TLS 1.3), the application benefits from transparent transport encryption without requiring changes to HTTP methods (<code>GET</code>, <code>POST</code>, <code>PUT</code>) or header semantics. The browser sends normal HTTP requests, but the underlying TLS record layer encrypts each frame before handing it down to the operating system's TCP socket.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 4: TLS SECURITY (HANDSHAKE VISUALIZATION)
+             ================================================================ -->
+        <section id="view-tls-security" class="view-section">
+          
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">TLS 1.3 / 1.2 Cryptographic Handshake Architecture</h2>
+                <div class="card-subtitle">An educational dissection of how asymmetric public-key cryptography establishes shared symmetric session keys.</div>
+              </div>
+              <span class="badge badge-verified">Interactive Flow</span>
+            </div>
+            
+            <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+              Before any encrypted web application data can be transmitted over port 443, the client and server must execute a <strong>TLS Handshake</strong>. This process accomplishes three core security goals:
+              <strong>(1) Parameter Negotiation</strong> (agreeing on ciphers),
+              <strong>(2) Authentication</strong> (verifying the server's identity via digital certificates), and
+              <strong>(3) Key Derivation</strong> (generating identical symmetric session keys using Diffie-Hellman).
+            </p>
+            
+            <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--cyan-400);">
+              <em>Note for College Viva:</em> Exact handshake packet sequences vary by version. TLS 1.2 requires 2 Round-Trip Times (2-RTT) with separate Key Exchange messages, while modern TLS 1.3 optimizes this to 1-RTT by including key shares directly in the Client Hello.
+            </div>
+          </div>
+
+          <!-- Stepper & Inspector Split -->
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem;">
+            
+            <!-- Left: Handshake Steps List -->
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary);">Handshake Sequence</span>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-secondary btn-sm" id="btnPrevHandshake">← Prev</button>
+                  <button class="btn btn-primary btn-sm" id="btnNextHandshake">Next Step →</button>
+                </div>
+              </div>
+
+              <div class="handshake-stepper" id="handshakeStepsList">
+                <!-- Injected via handshake.js -->
+              </div>
+            </div>
+
+            <!-- Right: Detailed Step Inspection Card -->
+            <div class="card" style="position: sticky; top: 1.5rem; height: fit-content;">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title" id="hsDetailTitle">Step 1: Client Hello</h3>
+                  <div class="card-subtitle" id="hsDetailBadge">Client → Server</div>
+                </div>
+                <span class="badge badge-port" id="hsDetailFilter">tls.handshake.type == 1</span>
+              </div>
+
+              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;" id="hsDetailDesc">
+                <!-- Description injected via handshake.js -->
+              </div>
+
+              <div class="inspector-section-title">Wireshark Protocol Fields</div>
+              <div class="inspector-specs-grid" id="hsDetailFields" style="margin-bottom: 1rem;">
+                <!-- Fields injected via handshake.js -->
+              </div>
+
+              <div class="inspector-sec-impact neutral" id="hsDetailTip">
+                <!-- Tip injected via handshake.js -->
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 5: WIRESHARK EVIDENCE REPOSITORY
+             ================================================================ -->
+        <section id="view-evidence" class="view-section">
+          
+          <div class="disclaimer-banner">
+            <div class="disclaimer-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div>
+              <strong>Evidence Repository Status:</strong> Below are your actual laboratory Wireshark captures (Experiment A, Experiment B, Experiment C). You can also upload additional screenshots locally to preview and document your evidence for the teacher demonstration. All uploads remain stored locally in your browser session.
+            </div>
+          </div>
+
+          <!-- Upload Dropzone Area -->
+          <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload Additional Wireshark Capture Screenshot
+              </h3>
+              <span class="badge badge-info">Local Client-Side Upload</span>
+            </div>
+
+            <form id="evidenceUploadForm">
+              <input type="file" id="evidenceFileInput" accept="image/*" style="display: none;" />
+              
+              <div class="upload-dropzone" id="evidenceDropzone">
+                <div id="dropPrompt">
+                  <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  <div class="upload-title">Click to Browse or Drag & Drop Wireshark Screenshot</div>
+                  <div class="upload-subtitle">Supports PNG, JPG, or WEBP image captures from Wireshark</div>
+                </div>
+
+                <div id="uploadPreviewContainer" style="display: none;">
+                  <img id="uploadPreviewImg" alt="Upload preview" style="max-height: 180px; border-radius: 8px; border: 1px solid var(--border-medium);" />
+                  <div style="font-size: 0.75rem; color: var(--cyan-400); margin-top: 0.5rem;">Screenshot selected for gallery</div>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                  <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem;">Evidence Title</label>
+                  <input type="text" id="uploadTitle" placeholder="e.g., Experiment D: TLS 1.3 Key Exchange Trace" 
+                         style="width: 100%; background: #0b1120; border: 1px solid var(--border-medium); border-radius: 6px; padding: 0.55rem 0.75rem; color: #ffffff; font-size: 0.82rem; outline: none;" />
+                </div>
+                <div>
+                  <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem;">Category</label>
+                  <select id="uploadCategory" style="width: 100%; background: #0b1120; border: 1px solid var(--border-medium); border-radius: 6px; padding: 0.55rem 0.75rem; color: #ffffff; font-size: 0.82rem; outline: none;">
+                    <option value="HTTP">HTTP (Plaintext Port 80)</option>
+                    <option value="HTTPS">HTTPS (Encrypted Port 443)</option>
+                    <option value="TLS Handshake">TLS Handshake & Certificates</option>
+                    <option value="General Packet Capture">General Packet Capture</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem;">Technical Description / Findings</label>
+                <textarea id="uploadDesc" rows="2" placeholder="Explain the packets captured in this screenshot, Wireshark display filters applied, and security takeaways..."
+                          style="width: 100%; background: #0b1120; border: 1px solid var(--border-medium); border-radius: 6px; padding: 0.55rem 0.75rem; color: #ffffff; font-size: 0.82rem; outline: none; resize: vertical;"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Add Screenshot to Evidence Gallery
+              </button>
+            </form>
+          </div>
+
+          <!-- Evidence Cards Grid -->
+          <div class="evidence-grid" id="evidenceGrid">
+            <!-- Populated via evidence.js with Experiment A, B, C -->
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 6: PACKET ANALYSIS (WIRESHARK-STYLE DISSECTION TABLE)
+             ================================================================ -->
+        <section id="view-packet-analysis" class="view-section">
+          
+          <div class="disclaimer-banner">
+            <div class="disclaimer-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div>
+              <strong>Demonstration Packet Engine:</strong> This interactive dissection interface matches the 3-pane layout of Wireshark. The displayed rows demonstrate realistic packet captures for HTTP, HTTPS, and TLS flows. Real PCAP binary parsing will be integrated in Phase 2.
+            </div>
+          </div>
+
+          <div class="packet-analyzer-container">
+            <!-- Filter Toolbar -->
+            <div class="packet-toolbar">
+              <div class="filter-input-row">
+                <div class="wireshark-filter-wrap">
+                  <span class="filter-icon">🔍</span>
+                  <input type="text" id="packetSearchInput" class="filter-input" placeholder="Apply display filter or search (e.g. http, tls, port 80, 192.168.1.50)..." />
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btnFilterClear">Clear</button>
+              </div>
+
+              <div class="filter-chips-row">
+                <div class="protocol-chips">
+                  <span style="font-size: 0.72rem; color: var(--text-subtle); margin-right: 0.25rem;">Quick Filters:</span>
+                  <button class="chip-btn active" data-proto="ALL">ALL</button>
+                  <button class="chip-btn" data-proto="HTTP">HTTP (Port 80)</button>
+                  <button class="chip-btn" data-proto="TLS">TLS (Port 443)</button>
+                  <button class="chip-btn" data-proto="TCP">TCP</button>
+                  <button class="chip-btn" data-proto="DNS">DNS</button>
+                </div>
+                <div class="packet-stat-count" id="packetCountStat">
+                  Showing 12 of 12 sample packets
+                </div>
+              </div>
+            </div>
+
+            <!-- Wireshark 3-Pane Inspired Workspace -->
+            <div class="packet-split-workspace">
+              
+              <!-- Upper Pane: Packet Summary Table -->
+              <div class="packet-table-wrapper">
+                <table class="packet-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 50px;">No.</th>
+                      <th style="width: 90px;">Time</th>
+                      <th style="width: 120px;">Source</th>
+                      <th style="width: 120px;">Destination</th>
+                      <th style="width: 80px;">Protocol</th>
+                      <th style="width: 60px;">Length</th>
+                      <th>Info / Summary</th>
+                    </tr>
+                  </thead>
+                  <tbody id="packetTableBody">
+                    <!-- Populated via packet-analyzer.js -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Lower Pane: Frame Dissection Tree & Hex Dump -->
+              <div class="packet-details-pane">
+                <!-- Dissection Tree -->
+                <div class="packet-dissect-col">
+                  <div class="pane-col-header">
+                    <span>Packet Dissection Tree (Protocol Breakdown)</span>
+                    <span class="badge badge-info">OSI L2 - L7</span>
+                  </div>
+                  <div class="dissect-tree-content" id="dissectTree">
+                    <!-- Injected via packet-analyzer.js -->
+                  </div>
+                </div>
+
+                <!-- Hex / ASCII Dump -->
+                <div class="packet-hex-col">
+                  <div class="pane-col-header">
+                    <span>Raw Packet Byte Stream (Hex & ASCII View)</span>
+                    <span class="badge badge-port">Hex Offset</span>
+                  </div>
+                  <div class="hex-content" id="hexDumpContent">
+                    <!-- Injected via packet-analyzer.js -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Security Insight Bar at Bottom -->
+            <div class="packet-sec-banner">
+              <div class="sec-summary-text" id="packetSecSummary">
+                <span class="sec-summary-highlight">[Packet #6 - HTTP]</span>
+                Select a packet row to view security implications and packet dissection.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 7: ABOUT PROJECT PAGE
+             ================================================================ -->
+        <section id="view-about" class="view-section">
+          
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Project Overview & Academic Specifications</h2>
+                <div class="card-subtitle">Course: Computer Networks & Cryptography Security Laboratory</div>
+              </div>
+              <span class="badge badge-verified">Version 1.0 (Phase 1)</span>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+              <p style="margin-bottom: 0.75rem;">
+                <strong>Project Title:</strong> HTTP/HTTPS/TLS Network Security Analyzer<br>
+                <strong>Focus Area:</strong> Transport Layer Security, Cryptographic Key Agreement, Protocol Vulnerability Analysis, Packet Sniffing Defense.
+              </p>
+              <p>
+                This project was created to evaluate the stark security contrast between legacy plaintext protocols (HTTP) and cryptographically secured communication tunnels (HTTPS via TLS 1.2 and 1.3). By analyzing protocol frame structures in Wireshark and simulating network traversal across switches, routers, and firewalls, this tool provides students and educators with an intuitive, interactive platform for cybersecurity demonstrations.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <!-- Objectives & Learning Outcomes -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Key Learning Outcomes</h3>
+                <span class="badge badge-info">Curriculum Aligned</span>
+              </div>
+              <ul style="padding-left: 1.25rem; font-size: 0.82rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
+                <li>Understand the vulnerabilities of unencrypted application traffic on port 80 to Man-in-the-Middle (MITM) sniffing.</li>
+                <li>Analyze the cryptographic handshake of TLS, including Diffie-Hellman ephemeral key derivation and symmetric cipher setup.</li>
+                <li>Examine X.509 Public Key Infrastructure (PKI) certificates and server identity authentication.</li>
+                <li>Interpret real Wireshark protocol dissections, display filters, and packet byte dumps.</li>
+                <li>Model network communication flows using Cisco Packet Tracer-style topology concepts.</li>
+              </ul>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Technologies & Tools</h3>
+                <span class="badge badge-verified">Pure Native Stack</span>
+              </div>
+              <div class="inspector-specs-grid" style="font-size: 0.8rem;">
+                <div class="spec-key">Frontend Markup:</div><div class="spec-val">HTML5 (Semantic & Accessible)</div>
+                <div class="spec-key">Styling System:</div><div class="spec-val">Vanilla CSS3 (Grid, Flexbox, Custom Props)</div>
+                <div class="spec-key">Logic & Router:</div><div class="spec-val">Vanilla JavaScript (ES6+ Modules, SPA)</div>
+                <div class="spec-key">Diagramming:</div><div class="spec-val">Interactive Browser-Native Scalable Vector Graphics (SVG)</div>
+                <div class="spec-key">Packet Capture:</div><div class="spec-val">Wireshark Network Protocol Analyzer</div>
+                <div class="spec-key">Architecture:</div><div class="spec-val">100% Client-Side Local Execution (No external dependencies)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 Roadmap -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Future Roadmap (Phase 2 Development)</h3>
+              <span class="badge badge-sample">Planned Enhancements</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; font-size: 0.82rem; color: var(--text-secondary);">
+              <div style="background: #0d1527; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--cyan-400);">1. PCAP File Parser</strong>
+                <p style="margin-top: 0.25rem; color: var(--text-muted);">Integrating a lightweight WebAssembly/JS pcapng parser to allow dragging actual Wireshark capture files directly into the analyzer.</p>
+              </div>
+              <div style="background: #0d1527; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--cyan-400);">2. Automated Security Scoring</strong>
+                <p style="margin-top: 0.25rem; color: var(--text-muted);">Algorithmic grading engine that scans capture files and generates a cybersecurity risk score based on plaintext credential detection.</p>
+              </div>
+              <div style="background: #0d1527; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--cyan-400);">3. PDF Viva Report Export</strong>
+                <p style="margin-top: 0.25rem; color: var(--text-muted);">One-click report generator generating formatted PDF lab summaries with student details, Wireshark screenshots, and packet statistics.</p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ====================================================================
+       Lightbox Modal for Wireshark Screenshot Inspection
+       ==================================================================== -->
+  <div class="modal-overlay" id="evidenceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle" style="font-size: 1rem; font-weight: 700; color: #ffffff;">Wireshark Capture Inspection</h3>
+        <button class="modal-close-btn" id="btnModalClose" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImg" src="" alt="Capture zoom" class="modal-image-preview" />
+        <div id="modalDesc" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/topology.js"></script>
+  <script src="js/handshake.js"></script>
+  <script src="js/evidence.js"></script>
+  <script src="js/packet-analyzer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+/* ==========================================================================
+   HTTP/HTTPS/TLS Network Security Analyzer - Topology Stylesheet
+   Cisco Packet Tracer / Network Monitoring Style Interactive Canvas
+   ========================================================================== */
+
+.topology-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height) - 3.5rem);
+  min-height: 620px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Topology Top Controls Toolbar */
+.topology-toolbar {
+  height: 52px;
+  background: #0d1527;
+  border-bottom: 1px solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.topology-title-area {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.topology-badge {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: var(--cyan-400);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.topology-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Canvas Body: Left Diagram Canvas, Right Details Panel */
+.topology-workspace {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagram SVG Canvas with Packet Tracer Dot Grid */
+.topology-canvas-area {
+  flex: 1;
+  position: relative;
+  background-color: #080d1a;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px, 120px 120px, 120px 120px;
+  background-position: 0 0, 0 0, 0 0;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.topology-canvas-area:active {
+  cursor: grabbing;
+}
+
+.topology-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* SVG Node & Link Styles */
+.topology-link {
+  stroke-width: 3;
+  transition: stroke 0.2s, stroke-width 0.2s, filter 0.2s;
+  cursor: pointer;
+}
+
+.topology-link.link-physical {
+  stroke: #334155;
+  stroke-dasharray: 4 2;
+}
+
+.topology-link.link-http {
+  stroke: #f59e0b;
+  stroke-dasharray: 6 4;
+  animation: dashAnimation 1.5s linear infinite;
+}
+
+.topology-link.link-https {
+  stroke: #00f0ff;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.45));
+}
+
+@keyframes dashAnimation {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.topology-link:hover {
+  stroke-width: 5;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* SVG Nodes */
+.topology-node {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.topology-node:hover {
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.5));
+}
+
+.topology-node.selected circle,
+.topology-node.selected rect {
+  stroke: var(--cyan-400);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 14px rgba(6, 182, 212, 0.7));
+}
+
+.node-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: #f1f5f9;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.node-sublabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  fill: #94a3b8;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.node-badge-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  fill: #00f0ff;
+  text-anchor: middle;
+}
+
+/* Packet Animation Bubbles on Lines */
+.sim-packet-http {
+  fill: #f59e0b;
+  filter: drop-shadow(0 0 6px #f59e0b);
+}
+
+.sim-packet-https {
+  fill: #00f0ff;
+  filter: drop-shadow(0 0 8px #00f0ff);
+}
+
+/* Floating Overlay Legend */
+.topology-legend {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(11, 17, 30, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  box-shadow: var(--shadow-md);
+  pointer-events: auto;
+}
+
+.legend-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+}
+
+.legend-line {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.legend-line.http {
+  background: #f59e0b;
+  border-top: 1px dashed #fbbf24;
+}
+
+.legend-line.https {
+  background: #00f0ff;
+  box-shadow: 0 0 6px #00f0ff;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Right Details Inspector Panel */
+.topology-inspector {
+  width: 360px;
+  background: #0e1628;
+  border-left: 1px solid var(--border-medium);
+  display: flex;
+  flex-direction: column;
+  z-index: 15;
+  transition: transform var(--transition-normal);
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.topology-inspector.collapsed {
+  display: none;
+}
+
+.inspector-header {
+  padding: 1.15rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: #121c33;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.inspector-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.inspector-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inspector-type {
+  font-size: 0.75rem;
+  color: var(--cyan-400);
+  font-family: var(--font-mono);
+}
+
+.inspector-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+}
+
+.inspector-close-btn:hover {
+  color: #ffffff;
+  background: var(--bg-surface-elevated);
+}
+
+.inspector-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inspector-section-title {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.inspector-specs-grid {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  background: #090e1a;
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.spec-key {
+  color: var(--text-muted);
+}
+
+.spec-val {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  word-break: break-all;
+}
+
+.inspector-desc-box {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.inspector-sec-impact {
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.inspector-sec-impact.insecure {
+  background: var(--insecure-amber-bg);
+  border: 1px solid var(--insecure-amber-border);
+  color: #fde68a;
+}
+
+.inspector-sec-impact.secure {
+  background: var(--secure-green-bg);
+  border: 1px solid var(--secure-green-border);
+  color: #a7f3d0;
+}
+
+.inspector-sec-impact.neutral {
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  color: #bfdbfe;
+}
+
+@media (max-width: 900px) {
+  .topology-workspace {
+    flex-direction: column;
+  }
+  .topology-inspector {
+    width: 100%;
+    max-height: 250px;
+  }
+}
